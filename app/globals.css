@@ -1,26 +1,95 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #fbfaf7;
+  --surface: #f3f1ec;
+  --hover: #ebe8e1;
+  --fg: #22201c;
+  --muted: #7a756b;
+  --line: #e2ded5;
+  --accent: #7c5cff;
+  --accent-soft: #ece7ff;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #18171a;
+    --surface: #212024;
+    --hover: #2b2a2f;
+    --fg: #e8e6e3;
+    --muted: #96918a;
+    --line: #2f2e33;
+    --accent: #a08bff;
+    --accent-soft: #2e2945;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #18171a;
+  --surface: #212024;
+  --hover: #2b2a2f;
+  --fg: #e8e6e3;
+  --muted: #96918a;
+  --line: #2f2e33;
+  --accent: #a08bff;
+  --accent-soft: #2e2945;
+  color-scheme: dark;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-hover: var(--hover);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans), system-ui, sans-serif;
+}
+
+@layer components {
+  .input {
+    @apply rounded-md border border-line bg-bg px-3 py-2 outline-none focus:border-accent;
+  }
+  .btn-primary {
+    @apply rounded-md bg-accent px-4 py-2 font-medium text-white transition hover:opacity-90 disabled:opacity-50;
+  }
+  .btn-ghost {
+    @apply rounded-md px-2 py-1 transition hover:bg-hover;
+  }
+  .chip {
+    @apply rounded-full border border-line px-3 py-1 text-muted transition hover:bg-hover;
+  }
+  .chip-on {
+    @apply border-accent bg-accent-soft text-fg;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* prose segue o tema por tokens */
+.prose {
+  --tw-prose-body: var(--fg);
+  --tw-prose-headings: var(--fg);
+  --tw-prose-links: var(--accent);
+  --tw-prose-bold: var(--fg);
+  --tw-prose-quotes: var(--muted);
+  --tw-prose-code: var(--fg);
+  --tw-prose-bullets: var(--muted);
+  --tw-prose-counters: var(--muted);
+  --tw-prose-hr: var(--line);
+  --tw-prose-th-borders: var(--line);
+  --tw-prose-td-borders: var(--line);
+  --tw-prose-pre-bg: var(--surface);
+  --tw-prose-pre-code: var(--fg);
 }
